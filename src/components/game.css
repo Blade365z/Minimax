@@ -1,0 +1,15 @@
+
+.board {
+    height: 300px;
+    display: flex;
+    margin-left:-210px;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.square-tictac{
+    flex: 1 0 80px;
+}
+
+.square-tictac:hover{
+    background-color: #e8e8e8;
+}

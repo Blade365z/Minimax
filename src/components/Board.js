@@ -1,31 +1,42 @@
 import React, { Component } from 'react'
 import Squares from './Squares'
 import './game.css';
-import { checkIfWin, findEmptySpacesInArray } from './helper';
+import { bestMove, checkIfWin, findEmptySpacesInArray, minimax } from './helper';
 
 
 class Board extends Component {
     state = {
-        moves: [null, null, null, null, null, null, null, null, null],
+        moves: ['', '', '', '', '', '', '', '', ''],
         currentPlayer: 'X'
     };
     players = ['X', 'O'];
-
+    restart = () =>{
+        this.setState({
+            moves:Array(9),
+            currentPlayer:'X'
+        })
+    }
     makeMove = (index) => {
         const tempArr = [...this.state.moves];
-        let nextPlayer = 'X';
-        if (tempArr[index - 1] === null) {
+        if (tempArr[index - 1] === '') {
             if (this.state.currentPlayer === 'X') {
                 tempArr[index - 1] = 'O';
-                nextPlayer='O'
+                this.setState({ moves: [...tempArr], currentPlayer: 'O' }, () => {
+                    if (!checkIfWin(this.state.moves, 'O')) {
+                        findEmptySpacesInArray(this.state.moves).length>0 && this.makeMove(bestMove(tempArr, 'X').index + 1)
+                    }else{
+                    }
+                })
+
             } else {
                 tempArr[index - 1] = 'X';
-                nextPlayer='X'
+                this.setState({ moves: [...tempArr], currentPlayer: 'X' }, () => {
+                        if (checkIfWin(this.state.moves, 'X')) {
+                            this.restart();
+                        }
+                })
             }
-            this.setState({ moves: [...tempArr], currentPlayer: nextPlayer }, () => {
-                checkIfWin(this.state.moves, index, nextPlayer);
-                console.log(findEmptySpacesInArray(this.state.moves));
-            })
+
             this.props.playerStatus(this.state.currentPlayer)
         } else {
             alert('Already filled!!')

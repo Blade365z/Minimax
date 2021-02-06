@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Squares from './Squares'
 import './game.css';
 import { bestMove, checkIfWin, findEmptySpacesInArray, minimax } from './helper';
+import GameInfo from './GameInfo';
 
 
 class Board extends Component {
@@ -29,11 +30,9 @@ class Board extends Component {
                 this.setState({ moves: [...tempArr], nextPlayer: nextPlayerTemp }, async () => {
                     if (!checkIfWin(this.state.moves, player)) {
                         findEmptySpacesInArray(this.state.moves).length > 0 && player === this.HUMAN && this.makeMove(bestMove(tempArr, this.AI).index + 1, this.AI)
-                        this.props.playerStatus(this.state.nextPlayer, null)
+                        // this.props.playerStatus(this.state.nextPlayer, null)
                     } else {
-                        this.setState({ winner: player }, () => {
-                            this.props.playerStatus(this.state.nextPlayer, player)
-                        })
+                        this.setState({ winner: player })
                     }
                 })
 
@@ -55,7 +54,8 @@ class Board extends Component {
                     {movesArr}
 
                 </div>
-                {findEmptySpacesInArray(this.state.moves).length === 0 || this.state.winner !== null && <div style={{ justifyContent: 'center', color: 'black' }}><p>Game over <span className="restartBtn" style={{ color: 'red' }} onClick={this.restart}>Click here to Restart</span></p></div>}
+                { (findEmptySpacesInArray(this.state.moves).length === 0 || this.state.winner !== null )&& <div style={{ justifyContent: 'center', color: 'black' }}><p>Game over <span className="restartBtn" style={{ color: 'red' }} onClick={this.restart}>Click here to Restart</span></p></div>}
+                {findEmptySpacesInArray(this.state.moves).length > 0 &&  <GameInfo playerRN={this.state.nextPlayer}  winner={this.state.winner} />}
             </div>
         )
     }

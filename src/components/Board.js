@@ -19,6 +19,9 @@ class Board extends Component {
                 tempArr[index - 1] = 'X';
                 this.setState({ moveArr: tempArr, currentPlayer: 'X' })
             }
+            this.props.playerStatus(this.state.currentPlayer)
+        } else {
+            alert('Already filled!!')
         }
     }
     render() {

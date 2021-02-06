@@ -2,8 +2,8 @@
 .board {
     height: 300px;
     display: flex;
-    margin-left:-210px;
-    flex-direction: column;
+    width: 300px;
+    flex-direction: row;
     flex-wrap: wrap;
 }
 .square-tictac{

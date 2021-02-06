@@ -9,19 +9,40 @@ class Board extends Component {
     };
     players = ['X', 'O'];
     makeMove = (index) => {
-        console.log(index)
-        const tempArr = this.state.moves;
+        const tempArr = [...this.state.moves];
         if (tempArr[index - 1] === null) {
             if (this.state.currentPlayer === 'X') {
                 tempArr[index - 1] = 'O';
-                this.setState({ moveArr: tempArr, currentPlayer: 'O' })
+                this.setState({ moves: [...tempArr], currentPlayer: 'O' }, () => {
+                    this.checkIfWin(this.state.moves, index, 'O');
+                })
             } else {
                 tempArr[index - 1] = 'X';
-                this.setState({ moveArr: tempArr, currentPlayer: 'X' })
+                this.setState({ moves: [...tempArr], currentPlayer: 'X' }, () => {
+                    this.checkIfWin(this.state.moves, index, 'X');
+                })
             }
             this.props.playerStatus(this.state.currentPlayer)
         } else {
             alert('Already filled!!')
+        }
+    }
+    checkIfWin = (movesArr, move, player) => {
+        for (let i = 0; i <= 2; i++) {
+            if (i === 0) {
+                if ((movesArr[0] == player && movesArr[4] == player && movesArr[8] == player) || (movesArr[2] == player && movesArr[4] == player && movesArr[6] == player)) {
+                    console.log(player, ' won!')
+                    break;
+                }
+            }
+            else if ((movesArr[i * 3 + 0] == player && movesArr[i * 3 + 1] == player && movesArr[i * 3 + 2] == player) || (movesArr[0 * 3 + i] == player && movesArr[1 * 3 + i] == player && movesArr[2 * 3 + i] == player)) {
+                console.log(player, ' won!')
+                break;
+            }
+
+        }
+        if (!movesArr.includes(null)) {
+            console.log('Draw!')
         }
     }
     render() {

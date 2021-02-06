@@ -7,40 +7,41 @@ import { bestMove, checkIfWin, findEmptySpacesInArray, minimax } from './helper'
 class Board extends Component {
     state = {
         moves: ['', '', '', '', '', '', '', '', ''],
-        currentPlayer: 'X'
+        nextPlayer: 'X',
+        winner: null,
     };
     players = ['X', 'O'];
-    restart = () =>{
+    restart = () => {
         this.setState({
-            moves:Array(9),
-            currentPlayer:'X'
+            moves: ['', '', '', '', '', '', '', '', ''],
+            nextPlayer: 'X',
+            winner: null
         })
     }
-    makeMove = (index) => {
-        const tempArr = [...this.state.moves];
-        if (tempArr[index - 1] === '') {
-            if (this.state.currentPlayer === 'X') {
-                tempArr[index - 1] = 'O';
-                this.setState({ moves: [...tempArr], currentPlayer: 'O' }, () => {
-                    if (!checkIfWin(this.state.moves, 'O')) {
-                        findEmptySpacesInArray(this.state.moves).length>0 && this.makeMove(bestMove(tempArr, 'X').index + 1)
-                    }else{
+    AI = 'X';
+    HUMAN = 'O';
+    makeMove = (index, player) => {
+        if (this.state.winner === null) {
+            let nextPlayerTemp = player === this.AI ? this.HUMAN : this.AI;
+            const tempArr = [...this.state.moves];
+            if (tempArr[index - 1] === '') {
+                tempArr[index - 1] = player;
+                this.setState({ moves: [...tempArr], nextPlayer: nextPlayerTemp }, async () => {
+                    if (!checkIfWin(this.state.moves, player)) {
+                        findEmptySpacesInArray(this.state.moves).length > 0 && player === this.HUMAN && this.makeMove(bestMove(tempArr, this.AI).index + 1, this.AI)
+                        this.props.playerStatus(this.state.nextPlayer, null)
+                    } else {
+                        this.setState({ winner: player }, () => {
+                            this.props.playerStatus(this.state.nextPlayer, player)
+                        })
                     }
                 })
 
             } else {
-                tempArr[index - 1] = 'X';
-                this.setState({ moves: [...tempArr], currentPlayer: 'X' }, () => {
-                        if (checkIfWin(this.state.moves, 'X')) {
-                            this.restart();
-                        }
-                })
+                alert('Already filled!!')
             }
-
-            this.props.playerStatus(this.state.currentPlayer)
-        } else {
-            alert('Already filled!!')
         }
+
     }
 
     render() {
@@ -49,8 +50,12 @@ class Board extends Component {
             return <Squares key={i++} index={j++} player={element} makeMove={this.makeMove} ></Squares>
         })
         return (
-            <div className="board"  >
-                {movesArr}
+            <div>
+                <div className="board"  >
+                    {movesArr}
+
+                </div>
+                {findEmptySpacesInArray(this.state.moves).length === 0 || this.state.winner !== null && <div style={{ justifyContent: 'center', color: 'black' }}><p>Game over <span className="restartBtn" style={{ color: 'red' }} onClick={this.restart}>Click here to Restart</span></p></div>}
             </div>
         )
     }

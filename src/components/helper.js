@@ -2,15 +2,15 @@ const human = 'O';
 const AI = 'X';
 
 export const checkIfWin = (movesArr, player) => {
-    let score = 0;
+    let score = 'WIN';
     for (let i = 0; i <= 2; i++) {
         if (i === 0) {
             if ((movesArr[0] == player && movesArr[4] == player && movesArr[8] == player) || (movesArr[2] == player && movesArr[4] == player && movesArr[6] == player)) {
                 return score;
             }
-            else if ((movesArr[i * 3 + 0] == player && movesArr[i * 3 + 1] == player && movesArr[i * 3 + 2] == player) || (movesArr[0 * 3 + i] == player && movesArr[1 * 3 + i] == player && movesArr[2 * 3 + i] == player)) {
-                return score;
-            }
+        }
+        if ((movesArr[i * 3 + 0] == player && movesArr[i * 3 + 1] == player && movesArr[i * 3 + 2] == player) || (movesArr[0 * 3 + i] == player && movesArr[1 * 3 + i] == player && movesArr[2 * 3 + i] == player)) {
+            return score;
         }
     }
     return null;
@@ -31,9 +31,9 @@ export const bestMove = (arr, player) => {
 export const minimax = (currentBoardStateArr, player) => {
     let emptySpaces = findEmptySpacesInArray(currentBoardStateArr);
     if (checkIfWin(currentBoardStateArr, AI)) {
-        return { score: -10 };
-    } else if (checkIfWin(currentBoardStateArr, human)) {
         return { score: 10 };
+    } else if (checkIfWin(currentBoardStateArr, human)) {
+        return { score: -10 };
     } else if (emptySpaces.length === 0) {
         return { score: 0 };
     }
@@ -41,7 +41,7 @@ export const minimax = (currentBoardStateArr, player) => {
     for (let i = 0; i < emptySpaces.length; i++) {
         var move = {};
         move.index = emptySpaces[i];
-        let backup = currentBoardStateArr[emptySpaces[i]]
+        var backup = currentBoardStateArr[emptySpaces[i]]
         currentBoardStateArr[emptySpaces[i]] = player;
         if (player === AI) {
             var result = minimax(currentBoardStateArr, human);

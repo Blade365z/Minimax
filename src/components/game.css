@@ -13,3 +13,7 @@
 .square-tictac:hover{
     background-color: #e8e8e8;
 }
+.restartBtn:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}

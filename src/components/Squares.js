@@ -2,7 +2,7 @@ import React from 'react'
 
 class Squares extends React.Component {
     makeMoveAndCallback = () => {
-        this.props.makeMove(this.props.index)
+        this.props.makeMove(this.props.index,'O')
     }
     render() {
         return (

@@ -1,0 +1,2 @@
+.board{height:300px;display:flex;width:300px;flex-direction:row;flex-wrap:wrap}.square-tictac{flex:1 0 80px}.square-tictac:hover{background-color:#e8e8e8}.restartBtn:hover{cursor:pointer;text-decoration:underline}
+/*# sourceMappingURL=main.d6da72e1.chunk.css.map */

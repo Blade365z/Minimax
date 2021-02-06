@@ -8,14 +8,14 @@ import GameInfo from './GameInfo';
 class Board extends Component {
     state = {
         moves: ['', '', '', '', '', '', '', '', ''],
-        nextPlayer: 'X',
+        nextPlayer: null,
         winner: null,
     };
     players = ['X', 'O'];
     restart = () => {
         this.setState({
             moves: ['', '', '', '', '', '', '', '', ''],
-            nextPlayer: 'X',
+            nextPlayer: null,
             winner: null
         })
     }
@@ -54,8 +54,8 @@ class Board extends Component {
                     {movesArr}
 
                 </div>
-                { (findEmptySpacesInArray(this.state.moves).length === 0 || this.state.winner !== null )&& <div style={{ justifyContent: 'center', color: 'black' }}><p>Game over <span className="restartBtn" style={{ color: 'red' }} onClick={this.restart}>Click here to Restart</span></p></div>}
-                {findEmptySpacesInArray(this.state.moves).length > 0 &&  <GameInfo playerRN={this.state.nextPlayer}  winner={this.state.winner} />}
+                { (findEmptySpacesInArray(this.state.moves).length === 0 || this.state.winner !== null) && <div style={{ justifyContent: 'center', color: 'black' }}><p>Game over <span className="restartBtn" style={{ color: 'red' }} onClick={this.restart}>Click here to Restart</span></p></div>}
+                {findEmptySpacesInArray(this.state.moves).length > 0 &&  this.state.nextPlayer!==null && <GameInfo playerRN={this.state.nextPlayer} winner={this.state.winner} />}
             </div>
         )
     }

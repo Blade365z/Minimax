@@ -12,7 +12,7 @@ export default class App extends Component {
                     <Board />
                 </div>
                 <div style={{paddingTop:'50px'}}> 
-                    <small style={{margin:'0'}}>Made with <span style={{color:'red',fontSize:'1.4em',paddingTop:'10'}}> ❤ </span> by blade365z</small> 
+                    <small style={{margin:'0'}}>Made with <span style={{color:'red',fontSize:'1.4em',paddingTop:'10'}}> ❤ </span> by blade</small> 
                 </div>
             </div>
         )
